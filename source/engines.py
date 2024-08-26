@@ -69,7 +69,7 @@ def train_fn(
             running_loss = 0.0
             running_labels, running_preds = [], []
             for ecgs, labels in tqdm(train_loaders["val"], disable = not training_verbose):
-                ecgs, labels = ecgs.cuda(), labels.cuda()
+                ecgs, labels = ecgs[0].cuda(), labels.cuda()
 
                 logits = model(ecgs)
                 loss = criterion(logits, labels)
