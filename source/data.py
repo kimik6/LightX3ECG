@@ -19,8 +19,8 @@ class ECGDataset(torch.utils.data.Dataset):
         augment = False, 
     ):
         
-        self.df  = pd.read_csv(df_path) 
-        self.chapmann_df = self.df[self.df['Ecg_dir'].str.contains('chapmanshaoxing', na=False)]
+        self.chapmann_df  = pd.read_csv(df_path) 
+        # self.chapmann_df = self.df[self.df['Ecg_dir'].str.contains('chapmanshaoxing', na=False)]
 
     def __len__(self, 
     ):
