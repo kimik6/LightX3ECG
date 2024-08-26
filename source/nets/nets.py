@@ -13,7 +13,7 @@ from nets.backbones import *
 class LightX3ECG(nn.Module):
     def __init__(self, 
         base_channels = 64, 
-        num_classes = 1, 
+        num_classes = 8, 
     ):
         super(LightX3ECG, self).__init__()
         self.backbone_0 = LightSEResNet18(base_channels)
