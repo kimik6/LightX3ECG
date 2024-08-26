@@ -18,7 +18,8 @@ class ECGDataset(torch.utils.data.Dataset):
         df_path, 
         augment = False, 
     ):
-        self.df  = pd.read_csv(df_path)
+        
+        self.df  = pd.read_csv(df_path) 
         self.chapmann_df = self.df[self.df['Ecg_dir'].str.contains('chapmanshaoxing', na=False)]
 
     def __len__(self, 
@@ -39,6 +40,6 @@ class ECGDataset(torch.utils.data.Dataset):
 
         ecg = torch.tensor(ecg).float()
         
-        label = row["bLabs"]
+        label = row["bLabs0"]
         
         return ecg, label
