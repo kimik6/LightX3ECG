@@ -37,7 +37,7 @@ train_loaders = {
         ECGDataset(
             df_path = "/kaggle/working/LightX3ECG/datasets/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v2.csv"
         ), 
-        num_workers = 8, batch_size = 32, 
+        num_workers = 8, batch_size = 8, 
         shuffle = True
     ), 
     "val":torch.utils.data.DataLoader(
@@ -45,7 +45,7 @@ train_loaders = {
             df_path = "/kaggle/working/LightX3ECG/datasets/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v2.csv", 
 
         ), 
-        num_workers = 8, batch_size = 224, 
+        num_workers = 8, batch_size = 32, 
         shuffle = False
     ), 
 }
