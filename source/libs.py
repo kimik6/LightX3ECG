@@ -7,7 +7,8 @@ from tqdm import tqdm
 
 import argparse
 import random
-import pandas, numpy as np
+import pandas as pd
+import numpy as np
 import neurokit2 as nk
 import torch
 import torch.nn as nn, torch.optim as optim
