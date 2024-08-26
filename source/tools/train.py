@@ -24,8 +24,8 @@ parser.add_argument("--num_gpus", type = int, default = 1)
 args = parser.parse_args()
 config = {
     "ecg_leads":[
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 
-    ], 
+        0, 1, 
+        6,],
     "ecg_length":5000, 
 
     "is_multilabel":args.multilabel, 
