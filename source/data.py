@@ -39,6 +39,6 @@ class ECGDataset(torch.utils.data.Dataset):
 
         ecg = torch.tensor(ecg).float()
         
-        label = row["Labs"]
+        label = row["bLabs"]
         
         return ecg, label
