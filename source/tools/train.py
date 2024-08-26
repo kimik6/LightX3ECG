@@ -2,7 +2,17 @@
 import os, sys
 __dir__ = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(__dir__), sys.path.append(os.path.abspath(os.path.join(__dir__, "..")))
-from libs import *
+
+import os, sys
+import warnings; warnings.filterwarnings("ignore")
+import pytorch_lightning; pytorch_lightning.seed_everything(22)
+
+
+import argparse
+
+import torch
+import torch.optim as optim
+import torch.nn.functional as F
 from data import ECGDataset
 from nets.nets import LightX3ECG
 from engines import train_fn
@@ -26,18 +36,15 @@ config = {
 train_loaders = {
     "train":torch.utils.data.DataLoader(
         ECGDataset(
-            df_path = "../datasets/{}/train.csv".format(args.dataset), data_path = "../../datasets/{}/train".format(args.dataset), 
-            config = config, 
-            augment = True, 
+            df_path = "/kaggle/working/LightX3ECG/datasets/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v2.csv"
         ), 
-        num_workers = 8, batch_size = 224, 
+        num_workers = 8, batch_size = 32, 
         shuffle = True
     ), 
     "val":torch.utils.data.DataLoader(
         ECGDataset(
-            df_path = "../datasets/{}/val.csv".format(args.dataset), data_path = "../../datasets/{}/val".format(args.dataset), 
-            config = config, 
-            augment = False, 
+            df_path = "/kaggle/working/LightX3ECG/datasets/Chap_CPSC_PTB_Direction_SingleLabels_CT-Code_v2.csv", 
+
         ), 
         num_workers = 8, batch_size = 224, 
         shuffle = False
