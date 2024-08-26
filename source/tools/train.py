@@ -24,8 +24,7 @@ parser.add_argument("--num_gpus", type = int, default = 1)
 args = parser.parse_args()
 config = {
     "ecg_leads":[
-        0, 1, 
-        6, 
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 
     ], 
     "ecg_length":5000, 
 
@@ -51,7 +50,7 @@ train_loaders = {
     ), 
 }
 model = LightX3ECG(
-    num_classes = args.num_classes, 
+    num_classes = 8, 
 )
 if not config["is_multilabel"]:
     criterion = F.cross_entropy
