@@ -1,10 +1,14 @@
 
 import os, sys
-from libs import *
-from .layers import *
-from .modules import *
-from .bblocks import *
-from .backbones import *
+import warnings; warnings.filterwarnings("ignore")
+import pytorch_lightning; pytorch_lightning.seed_everything(22)
+
+import torch
+import torch.nn as nn
+from nets.layers import *
+from nets.modules import *
+from nets.bblocks import *
+from nets.backbones import *
 
 class LightX3ECG(nn.Module):
     def __init__(self, 
