@@ -38,7 +38,7 @@ class ECGDataset(torch.utils.data.Dataset):
 #             "post", "post", 
 #         )
 
-        ecg = torch.tensor(ecg[:,5000]).float()
+        ecg = torch.tensor(ecg[:,:5000]).float()
         
         label = row["bLabs0"]
         
