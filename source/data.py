@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy.io import loadmat
 import os
+from sklearn.utils import resample
 
 def load_challenge_data(filename):
     x = loadmat(filename)
@@ -37,7 +38,8 @@ class ECGDataset(torch.utils.data.Dataset):
 #         ecg = pad_sequences(ecg, "float64", 
 #             "post", "post", 
 #         )
-
+        if ecg.shape[1]<5000:
+            ecg = np.pad(ecg, [(0, 0), (0, 5000-ecg.shape[1])], mode='constant')
         ecg = torch.tensor(ecg[:,:5000]).float()
         
         label = row["bLabs0"]
