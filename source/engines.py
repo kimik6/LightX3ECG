@@ -38,6 +38,7 @@ def train_fn(
         model.train()
         running_loss = 0.0
         running_labels, running_preds = [], []
+        
         for ecgs, labels in tqdm(train_loaders["train"]):
             ecgs, labels = ecgs.cuda(), labels.cuda()
 
@@ -88,7 +89,7 @@ def train_fn(
                 epoch_loss, epoch_f1
             ))
         if epoch_f1 > best_f1:
-            best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.ptl".format(save_ckp_dir))
+            best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
 
     print("\nStart Evaluation ...\n" + " = "*16)
     model = torch.load("{}/best.ptl".format(save_ckp_dir), map_location = "cuda")
