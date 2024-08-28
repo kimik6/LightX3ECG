@@ -85,9 +85,9 @@ def train_fn(
         if training_verbose:
             print("{:<5} - loss:{:.4f}".format(
                 "val", 
-                val_loss
+                epoch_loss
             ))
-            print( 'validation report :', val_f1 )
+            print( 'validation report :', epoch_f1 )
         if epoch_f1 > best_f1:
             best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
 
