@@ -15,7 +15,7 @@ import torch
 import torch.nn as nn
 from sklearn.metrics import f1_score
 from utils import *
-
+from sklearn.metrics import classification_report
 def train_fn(
     train_loaders, 
     model, 
@@ -92,7 +92,7 @@ def train_fn(
             best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
 
     print("\nStart Evaluation ...\n" + " = "*16)
-    model = torch.load("{}/best.ptl".format(save_ckp_dir), map_location = "cuda")
+    model = torch.load("{}/best.pth".format(save_ckp_dir), map_location = "cuda")
     model = nn.DataParallel(model, device_ids = config["device_ids"])
 
     with torch.no_grad():
@@ -113,11 +113,11 @@ def train_fn(
         running_preds = np.stack([
             np.where(running_preds[:, cls] >= optimal_thresholds[cls], 1, 0) for cls in range(running_preds.shape[1])
         ]).transpose()
-    val_loss, val_f1 = running_loss/len(train_loaders["val"].dataset), f1_score(
+    val_loss, val_f1 = running_loss/len(train_loaders["val"].dataset), classification_report(
         running_labels, running_preds
-        , average = "macro"
     )
-    print("{:<5} - loss:{:.4f}, f1:{:.4f}".format(
+    print("{:<5} - loss:{:.4f}".format(
         "val", 
-        val_loss, val_f1
+        val_loss
     ))
+    print( 'validation report :', val_f1 )
