@@ -79,15 +79,16 @@ def train_fn(
                 labels, preds = list(labels.data.cpu().numpy()), list(torch.max(logits, 1)[1].detach().cpu().numpy()) if not config["is_multilabel"] else list(np.where(torch.sigmoid(logits).detach().cpu().numpy() >= 0.50, 1, 0))
                 running_labels.extend(labels), running_preds.extend(preds)
 
-        epoch_loss, epoch_f1 = running_loss/len(train_loaders["val"].dataset), f1_score(
+        epoch_loss, epoch_f1 = running_loss/len(train_loaders["val"].dataset), classification_report(
             running_labels, running_preds
             , average = "macro"
         )
         if training_verbose:
-            print("{:<5} - loss:{:.4f}, f1:{:.4f}".format(
+            print("{:<5} - loss:{:.4f}".format(
                 "val", 
-                epoch_loss, epoch_f1
+                val_loss
             ))
+            print( 'validation report :', val_f1 )
         if epoch_f1 > best_f1:
             best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
 
