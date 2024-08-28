@@ -81,7 +81,6 @@ def train_fn(
 
         epoch_loss, epoch_f1 = running_loss/len(train_loaders["val"].dataset), classification_report(
             running_labels, running_preds
-            , average = "macro"
         )
         if training_verbose:
             print("{:<5} - loss:{:.4f}".format(
