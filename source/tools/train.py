@@ -53,6 +53,7 @@ train_loaders = {
 model = LightX3ECG(
     num_classes = 8, 
 )
+model = model.cuda()
 if args.pretrained is not None:
     model.load_state_dict(torch.load(args.pretrained))
 
