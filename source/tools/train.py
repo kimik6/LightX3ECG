@@ -20,6 +20,7 @@ from engines import train_fn
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type = str), parser.add_argument("--num_classes", type = int)
 parser.add_argument("--multilabel", action = "store_true")
+parser.add_argument("--pretrained", action = "store_true")
 parser.add_argument("--num_gpus", type = int, default = 1)
 args = parser.parse_args()
 config = {
@@ -52,6 +53,8 @@ train_loaders = {
 model = LightX3ECG(
     num_classes = 8, 
 )
+if args.pretrained :
+    model.load_state_dict(torch.load('/kaggle/working/LightX3ECG/source/best_ecg.pth'))
 if not config["is_multilabel"]:
     criterion = F.cross_entropy
 else:
