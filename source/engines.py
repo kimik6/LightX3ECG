@@ -16,6 +16,11 @@ import torch.nn as nn
 from sklearn.metrics import f1_score
 from utils import *
 from sklearn.metrics import classification_report
+import pickle
+
+
+    
+    
 def train_fn(
     train_loaders, 
     model, 
@@ -30,7 +35,7 @@ def train_fn(
     print("\nStart Training ...\n" + " = "*16)
     model = model.cuda()
     # model = nn.DataParallel(model, device_ids = config["device_ids"])
-
+    all_logs = []  # Create an empty list to store logs for all epochs
     best_f1 = 0.0
     for epoch in tqdm(range(1, num_epochs + 1), disable = training_verbose):
         if training_verbose:print("epoch {:2}/{:2}".format(epoch, num_epochs) + "\n" + "-"*16)
@@ -79,21 +84,36 @@ def train_fn(
                 labels, preds = list(labels.data.cpu().numpy()), list(torch.max(logits, 1)[1].detach().cpu().numpy()) if not config["is_multilabel"] else list(np.where(torch.sigmoid(logits).detach().cpu().numpy() >= 0.50, 1, 0))
                 running_labels.extend(labels), running_preds.extend(preds)
 
-        epoch_loss, epoch_classification_report = running_loss/len(train_loaders["val"].dataset), classification_report(
+        epoch_loss_val, epoch_classification_report_val = running_loss/len(train_loaders["val"].dataset), classification_report(
             running_labels, running_preds
         )
-        epoch_f1 = f1_score(
+        epoch_f1_val = f1_score(
             running_labels, running_preds
             , average = "macro"
         )
         if training_verbose:
             print("{:<5} - loss:{:.4f}, f1:{:.4f}".format(
                 "val", 
-                epoch_loss, epoch_f1
+                epoch_loss_val, epoch_f1_val
             ))
-            print( 'validation report :', epoch_classification_report )
+            print( 'validation report :', epoch_classification_report_val )
+
         if epoch_f1 > best_f1:
             best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
+    logs = {
+        "epoch": epoch,
+        "loss_train": epoch_loss,
+        "loss_valid": epoch_loss_val,
+        "F1_train": epoch_f1,
+        "F1_train": epoch_f1_val,
+        'validation report': epoch_classification_report_val
+        }
+    
+    all_logs.append(logs)  # Append the logs for this epoch to the list
+    
+    # Save all_logs to the pickle file
+    with open('my_train_logs.pkl', 'wb') as f:
+        pickle.dump(all_logs, f)
 
     print("\nStart Evaluation ...\n" + " = "*16)
     model = torch.load("{}/best.pth".format(save_ckp_dir), map_location = "cuda")
