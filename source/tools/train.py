@@ -22,6 +22,7 @@ parser.add_argument("--dataset", type = str), parser.add_argument("--num_classes
 parser.add_argument("--multilabel", action = "store_true")
 parser.add_argument("--pretrained", type = str)
 parser.add_argument("--num_gpus", type = int, default = 1)
+parser.add_argument("--max_epoch", type = int, default = 30)
 parser.add_argument("--df_path", type = str, default = '/kaggle/working/LightX3ECG/datasets/train.csv')
 args = parser.parse_args()
 config = {
@@ -77,7 +78,7 @@ if not os.path.exists(save_ckp_dir):
 train_fn(
     train_loaders, 
     model, 
-    num_epochs = 70, 
+    num_epochs = args.max_epoch, 
     config = config, 
     criterion = criterion, 
     optimizer = optimizer, 
