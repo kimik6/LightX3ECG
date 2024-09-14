@@ -53,7 +53,7 @@ train_loaders = {
     ), 
 }
 model = LightX3ECG(
-    num_classes = 8, 
+    num_classes = args.num_classes, 
 )
 model = model.cuda()
 if args.pretrained is not None:
