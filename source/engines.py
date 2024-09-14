@@ -99,7 +99,8 @@ def train_fn(
             print( 'validation report :', epoch_classification_report_val )
 
         if epoch_f1 > best_f1:
-            best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
+            best_f1 = epoch_f1
+            torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
             
         logs = {
             "epoch": epoch,
