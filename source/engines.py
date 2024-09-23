@@ -40,7 +40,7 @@ def train_fn(
     for epoch in tqdm(range(1, num_epochs + 1), disable = training_verbose):
         if training_verbose:print("epoch {:2}/{:2}".format(epoch, num_epochs) + "\n" + "-"*16)
 
-        model.train()
+        
         running_loss = 0.0
         running_labels, running_preds = [], []
         
@@ -100,13 +100,13 @@ def train_fn(
 
         if epoch_f1 > best_f1:
             best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
-            
+
         logs = {
             "epoch": epoch,
             "loss_train": epoch_loss,
             "loss_valid": epoch_loss_val,
             "F1_train": epoch_f1,
-            "F1_train": epoch_f1_val,
+            "F1_valid": epoch_f1_val,
             'validation report': epoch_classification_report_val
             }
         

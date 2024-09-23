@@ -36,14 +36,14 @@ config = {
 train_loaders = {
     "train":torch.utils.data.DataLoader(
         ECGDataset(
-            df_path = "/kaggle/working/LightX3ECG/datasets/train.csv"
+            df_path = "/kaggle/working/LightX3ECG/datasets/6class_train.csv"
         ), 
         num_workers = 0, batch_size = 8, 
         shuffle = True
     ), 
     "val":torch.utils.data.DataLoader(
         ECGDataset(
-            df_path = "/kaggle/working/LightX3ECG/datasets/val.csv", 
+            df_path = "/kaggle/working/LightX3ECG/datasets/6class_val.csv", 
 
         ), 
         num_workers = 0, batch_size = 32, 
