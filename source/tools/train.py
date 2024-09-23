@@ -38,22 +38,14 @@ config = {
 train_loaders = {
     "train":torch.utils.data.DataLoader(
         ECGDataset(
-<<<<<<< HEAD
-            df_path = "/kaggle/working/LightX3ECG/datasets/6class_train.csv"
-=======
             df_path = args.df_path
->>>>>>> f6f406238126ea4a8e618c199eb2740ff2964034
         ), 
         num_workers = 0, batch_size = 8, 
         shuffle = True
     ), 
     "val":torch.utils.data.DataLoader(
         ECGDataset(
-<<<<<<< HEAD
-            df_path = "/kaggle/working/LightX3ECG/datasets/6class_val.csv", 
-=======
             args.df_path.replace('train','val')
->>>>>>> f6f406238126ea4a8e618c199eb2740ff2964034
 
         ), 
         num_workers = 0, batch_size = 32, 
@@ -61,7 +53,7 @@ train_loaders = {
     ), 
 }
 model = LightX3ECG(
-    num_classes = args.num_classes, 
+    num_classes = 8, 
 )
 model = model.cuda()
 if args.pretrained is not None:

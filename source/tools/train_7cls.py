@@ -22,6 +22,8 @@ parser.add_argument("--dataset", type = str), parser.add_argument("--num_classes
 parser.add_argument("--multilabel", action = "store_true")
 parser.add_argument("--pretrained", type = str)
 parser.add_argument("--num_gpus", type = int, default = 1)
+parser.add_argument("--max_epoch", type = int, default = 30)
+parser.add_argument("--df_path", type = str, default = '/kaggle/working/LightX3ECG/datasets/train.csv')
 args = parser.parse_args()
 config = {
     "ecg_leads":[
@@ -36,14 +38,14 @@ config = {
 train_loaders = {
     "train":torch.utils.data.DataLoader(
         ECGDataset(
-            df_path = "/kaggle/working/LightX3ECG/datasets/7class_train.csv"
+            df_path = args.df_path
         ), 
         num_workers = 0, batch_size = 8, 
         shuffle = True
     ), 
     "val":torch.utils.data.DataLoader(
         ECGDataset(
-            df_path = "/kaggle/working/LightX3ECG/datasets/7class_val.csv", 
+            args.df_path.replace('train','val')
 
         ), 
         num_workers = 0, batch_size = 32, 
@@ -68,7 +70,6 @@ if not config["is_multilabel"]:
     criterion = F.cross_entropy
 else:
     criterion = F.binary_cross_entropy_with_logits
-
 optimizer = optim.Adam(
     model.parameters(), 
     lr = 1e-3, weight_decay = 5e-5, 
@@ -84,7 +85,7 @@ if not os.path.exists(save_ckp_dir):
 train_fn(
     train_loaders, 
     model, 
-    num_epochs = 70, 
+    num_epochs = args.max_epoch, 
     config = config, 
     criterion = criterion, 
     optimizer = optimizer, 
