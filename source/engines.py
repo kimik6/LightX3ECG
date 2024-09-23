@@ -99,8 +99,14 @@ def train_fn(
             print( 'validation report :', epoch_classification_report_val )
 
         if epoch_f1 > best_f1:
+<<<<<<< HEAD
             best_f1 = epoch_f1; torch.save(model.state_dict(), "{}/best.pth".format(save_ckp_dir))
 
+=======
+            best_f1 = epoch_f1
+            torch.save(model.state_dict(), "{}/best_7.pth".format(save_ckp_dir))
+            
+>>>>>>> f6f406238126ea4a8e618c199eb2740ff2964034
         logs = {
             "epoch": epoch,
             "loss_train": epoch_loss,
@@ -113,7 +119,7 @@ def train_fn(
         all_logs.append(logs)  # Append the logs for this epoch to the list
         
         # Save all_logs to the pickle file
-        with open('my_train_logs.pkl', 'wb') as f:
+        with open('my_train_logs_7.pkl', 'wb') as f:
             pickle.dump(all_logs, f)
 
     print("\nStart Evaluation ...\n" + " = "*16)

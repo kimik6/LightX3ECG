@@ -22,6 +22,8 @@ parser.add_argument("--dataset", type = str), parser.add_argument("--num_classes
 parser.add_argument("--multilabel", action = "store_true")
 parser.add_argument("--pretrained", type = str)
 parser.add_argument("--num_gpus", type = int, default = 1)
+parser.add_argument("--max_epoch", type = int, default = 30)
+parser.add_argument("--df_path", type = str, default = '/kaggle/working/LightX3ECG/datasets/train.csv')
 args = parser.parse_args()
 config = {
     "ecg_leads":[
@@ -36,14 +38,22 @@ config = {
 train_loaders = {
     "train":torch.utils.data.DataLoader(
         ECGDataset(
+<<<<<<< HEAD
             df_path = "/kaggle/working/LightX3ECG/datasets/6class_train.csv"
+=======
+            df_path = args.df_path
+>>>>>>> f6f406238126ea4a8e618c199eb2740ff2964034
         ), 
         num_workers = 0, batch_size = 8, 
         shuffle = True
     ), 
     "val":torch.utils.data.DataLoader(
         ECGDataset(
+<<<<<<< HEAD
             df_path = "/kaggle/working/LightX3ECG/datasets/6class_val.csv", 
+=======
+            args.df_path.replace('train','val')
+>>>>>>> f6f406238126ea4a8e618c199eb2740ff2964034
 
         ), 
         num_workers = 0, batch_size = 32, 
@@ -51,7 +61,7 @@ train_loaders = {
     ), 
 }
 model = LightX3ECG(
-    num_classes = 8, 
+    num_classes = args.num_classes, 
 )
 model = model.cuda()
 if args.pretrained is not None:
@@ -76,7 +86,7 @@ if not os.path.exists(save_ckp_dir):
 train_fn(
     train_loaders, 
     model, 
-    num_epochs = 70, 
+    num_epochs = args.max_epoch, 
     config = config, 
     criterion = criterion, 
     optimizer = optimizer, 
